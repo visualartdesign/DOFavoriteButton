@@ -12,9 +12,9 @@ import DOFavoriteButton
 class ViewController: UIViewController {
 
     @IBOutlet var heartButton: DOFavoriteButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         let width = (self.view.frame.width - 44) / 4
         var x = width / 2
@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         // star button
         let starButton = DOFavoriteButton(frame: CGRect(x: x, y: y, width: 44, height: 44), image: UIImage(named: "star"))
         starButton.addTarget(self, action: #selector(self.tappedButton), for: .touchUpInside)
+        starButton.duration = 10.0
         self.view.addSubview(starButton)
         x += width
         
@@ -53,12 +54,6 @@ class ViewController: UIViewController {
         self.view.addSubview(smileButton)
         
         self.heartButton.addTarget(self, action: #selector(self.tappedButton), for: .touchUpInside)
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @objc func tappedButton(sender: DOFavoriteButton) {

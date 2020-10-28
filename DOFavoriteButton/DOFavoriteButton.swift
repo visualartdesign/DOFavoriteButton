@@ -11,6 +11,7 @@
 
 import UIKit
 
+/// Custom lại UIButton
 @IBDesignable
 open class DOFavoriteButton: UIButton {
 
@@ -128,7 +129,7 @@ open class DOFavoriteButton: UIButton {
         circleShape.mask = circleMask
 
         let maskPath = UIBezierPath(rect: imageFrame)
-        maskPath.addArc(withCenter: imgCenterPoint, radius: 0.1, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI * 2), clockwise: true)
+        maskPath.addArc(withCenter: imgCenterPoint, radius: 0.1, startAngle: CGFloat(0.0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
         circleMask.path = maskPath.cgPath
 
         //===============
@@ -155,7 +156,7 @@ open class DOFavoriteButton: UIButton {
             line.strokeStart = 0.0
             line.strokeEnd = 0.0
             line.opacity = 0.0
-            line.transform = CATransform3DMakeRotation(CGFloat(M_PI) / 5 * (CGFloat(i) * 2 + 1), 0.0, 0.0, 1.0)
+            line.transform = CATransform3DMakeRotation(CGFloat(Double.pi) / 5 * (CGFloat(i) * 2 + 1), 0.0, 0.0, 1.0)
             self.layer.addSublayer(line)
             lines.append(line)
         }
@@ -357,11 +358,12 @@ open class DOFavoriteButton: UIButton {
     @objc func touchDragEnter(_ sender: DOFavoriteButton) {
         self.layer.opacity = 0.4
     }
-    
     @objc func touchCancel(_ sender: DOFavoriteButton) {
         self.layer.opacity = 1.0
     }
 
+    // MARK: Public
+    
     open func select() {
         isSelected = true
         imageShape.fillColor = imageColorOn.cgColor
