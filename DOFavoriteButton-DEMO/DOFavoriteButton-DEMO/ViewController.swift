@@ -15,11 +15,11 @@ class ViewController: UIViewController {
     @IBOutlet var heartButton: DOFavoriteButton!
 
     /// Constant
-    let heartColor = ColorRGB(254, 110, 111)
+    let selectedHeartColor = ColorRGB(254, 110, 111)
     let heartLineColor = ColorRGB(226, 96, 96)
-    let likeColor = ColorRGB(52, 152, 219)
+    let selectedLikeColor = ColorRGB(52, 152, 219)
     let likeLineColor = ColorRGB(41, 128, 185)
-    let smileColor = ColorRGB(45, 204, 112)
+    let selectedSmileColor = ColorRGB(45, 204, 112)
     let smileLineColor = ColorRGB(45, 195, 106)
     let buttonW: CGFloat = 44.0
     
@@ -42,8 +42,8 @@ class ViewController: UIViewController {
         
         // heart button
         let heartButton = DOFavoriteButton(frame: CGRect(x: x, y: y, width: buttonW, height: buttonW), image: UIImage(named: "heart"))
-        heartButton.imageColorOn = heartColor
-        heartButton.circleColor = heartColor
+        heartButton.selectedColor = selectedHeartColor
+        heartButton.circleColor = selectedHeartColor
         heartButton.lineColor = heartLineColor
         heartButton.addTarget(self, action: #selector(self.tappedButton), for: .touchUpInside)
         self.view.addSubview(heartButton)
@@ -51,8 +51,8 @@ class ViewController: UIViewController {
         
         // like button
         let likeButton = DOFavoriteButton(frame: CGRect(x: x, y: y, width: buttonW, height: buttonW), image: UIImage(named: "like"))
-        likeButton.imageColorOn = likeColor
-        likeButton.circleColor = likeColor
+        likeButton.selectedColor = selectedLikeColor
+        likeButton.circleColor = selectedLikeColor
         likeButton.lineColor = likeLineColor
         likeButton.addTarget(self, action: #selector(self.tappedButton), for: .touchUpInside)
         self.view.addSubview(likeButton)
@@ -60,8 +60,8 @@ class ViewController: UIViewController {
         
         // smile button
         let smileButton = DOFavoriteButton(frame: CGRect(x: x, y: y, width: buttonW, height: buttonW), image: UIImage(named: "smile"))
-        smileButton.imageColorOn = smileColor
-        smileButton.circleColor = smileColor
+        smileButton.selectedColor = selectedSmileColor
+        smileButton.circleColor = selectedSmileColor
         smileButton.lineColor = smileLineColor
         smileButton.addTarget(self, action: #selector(self.tappedButton), for: .touchUpInside)
         self.view.addSubview(smileButton)
