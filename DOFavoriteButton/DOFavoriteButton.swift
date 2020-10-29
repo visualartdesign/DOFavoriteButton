@@ -151,6 +151,7 @@ open class DOFavoriteButton: UIButton {
     fileprivate func createLayers(image: UIImage!) {
         self.layer.sublayers = nil
         
+        /// Calculate ImageFrame and LineFrame
         let buttonWidth = frame.size.width
         let buttonHeight = frame.size.height
         let imageFrame = CGRect(x: buttonWidth/4,
@@ -163,17 +164,16 @@ open class DOFavoriteButton: UIButton {
                                width: imageFrame.width * 1.5,
                                height: imageFrame.height * 1.5)
         
-        //===============
-        // circle layer
-        //===============
-        circleShape = CAShapeLayer()
+        /// CircleLayer
+        circleShape = OvalLayer(fillColor: circleColor.cgColor)
         circleShape.bounds = imageFrame
         circleShape.position = imgCenterPoint
-        circleShape.path = UIBezierPath(ovalIn: imageFrame).cgPath
-        circleShape.fillColor = circleColor.cgColor
-        circleShape.transform = CATransform3DMakeScale(0.0, 0.0, 1.0)
+        circleShape.transform = CATransform3DMakeScale(0.0, 0.0, 1.0)   /// scale width, height về 0
         self.layer.addSublayer(circleShape)
         
+        ///
+        /// Read more about FillRule
+        /// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Paths/Paths.html#//apple_ref/doc/uid/TP40003290-CH206-BAJIJJGD
         circleMask = CAShapeLayer()
         circleMask.bounds = imageFrame
         circleMask.position = imgCenterPoint
@@ -181,7 +181,11 @@ open class DOFavoriteButton: UIButton {
         circleShape.mask = circleMask
         
         let maskPath = UIBezierPath(rect: imageFrame)
-        maskPath.addArc(withCenter: imgCenterPoint, radius: 0.1, startAngle: CGFloat(0.0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        maskPath.addArc(withCenter: imgCenterPoint,
+                        radius: 0.1,
+                        startAngle: CGFloat(0.0),
+                        endAngle: CGFloat(Double.pi*2),
+                        clockwise: true)
         circleMask.path = maskPath.cgPath
         
         //===============
