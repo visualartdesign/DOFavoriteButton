@@ -12,6 +12,57 @@ You can also use paths to define a **clipping region** for the current graphics 
 > Clipping region?
 > **modify** subsequent drawing operations?
 
+## Tạo 1 số BezierPath phổ biến
+
+**Hình chữ nhật**
+[`+ bezierPathWithRect:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624359-bezierpathwithrect?language=objc)
+
+**Oval nội tiếp của Input Rect**
+[`+ bezierPathWithOvalInRect:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624379-bezierpathwithovalinrect?language=objc)
+
+**Hình chữ nhật + bo góc**
+[`+ bezierPathWithRoundedRect:cornerRadius:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624356-bezierpathwithroundedrect?language=objc)
+
+**Hình chữ nhật + bo góc + bo góc nào**
+[`+ bezierPathWithRoundedRect:byRoundingCorners:cornerRadii:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624368-bezierpathwithroundedrect?language=objc)
+
+**Vẽ vòng cung với 1 góc x, bán kính,..**
+[`+ bezierPathWithArcCenter:radius:startAngle:endAngle:clockwise:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624358-bezierpathwitharccenter?language=objc)
+
+Creates and returns a new Bézier path object with the contents of a Core Graphics path.
+[`+ bezierPathWithCGPath:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624362-bezierpathwithcgpath?language=objc)
+
+Creates and returns a new Bézier path object with the reversed contents of the current path.
+[`- bezierPathByReversingPath`](https://developer.apple.com/documentation/uikit/uibezierpath/1624348-bezierpathbyreversingpath?language=objc)
+
+# Constructing a Path
+
+[`- moveToPoint:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624343-movetopoint?language=objc)
+[`- addLineToPoint:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624354-addlinetopoint?language=objc)
+[`- closePath`](https://developer.apple.com/documentation/uikit/uibezierpath/1624338-closepath?language=objc)
+[`currentPoint`](https://developer.apple.com/documentation/uikit/uibezierpath/1624352-currentpoint?language=objc)
+
+**Appends an arc to the path.**
+[`- addArcWithCenter:radius:startAngle:endAngle:clockwise:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624367-addarcwithcenter?language=objc)
+
+**Appends a cubic Bézier curve to the path.**
+[`- addCurveToPoint:controlPoint1:controlPoint2:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624357-addcurvetopoint?language=objc)
+
+**Appends a quadratic Bézier curve to the path.**
+[`- addQuadCurveToPoint:controlPoint:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624351-addquadcurvetopoint?language=objc)
+
+Removes all points from the path, effectively deleting all subpaths.
+[`- removeAllPoints`](https://developer.apple.com/documentation/uikit/uibezierpath/1624363-removeallpoints?language=objc)
+
+Appends the contents of the specified path object to the path.
+[`- appendPath:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624377-appendpath?language=objc)
+
+The Core Graphics representation of the path.
+[`CGPath`](https://developer.apple.com/documentation/uikit/uibezierpath/1624342-cgpath?language=objc)
+
+The Core Graphics representation of the path.
+[`- CGPath`](https://developer.apple.com/documentation/uikit/uibezierpath/1624376-cgpath?language=objc)
+
 ## Bézier Path Basics
 
 A `UIBezierPath]` object is a wrapper for a `CGPathRef` data type. 
@@ -125,45 +176,33 @@ Figure 2-2  shows the components that go into creating an **arc**, including the
 If you want to incorporate **an arc segment** into the **middle of a path**, you must **modify the path object’s**  `[CGPathRef]`  data type directly. 
 For more information about modifying the path using Core Graphics functions, see  [Modifying the Path Using Core Graphics Functions](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html#//apple_ref/doc/uid/TP40010156-CH11-SW10).
 
-## Adding Curves to Your Path
-
-The  `[UIBezierPath]`  class provides support for adding cubic and quadratic Bézier curves to a path. Curve segments start at the current point and end at the point you specify. The shape of the curve is defined using tangent lines between the start and end points and one or more control points.  Figure 2-3  shows approximations of both types of curve and the relationship between the control points and the shape of the curve. The exact curvature of each segment involves a complex mathematical relationship between all of the points and is well documented online and at  [Wikipedia](http://en.wikipedia.org/wiki/Bezier_curve).
-
-**Figure 2-3** Curve segments in a path
-
-![](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/Art/curve_segments_2x.png)
-
-To add curves to a path, you use the following methods:
-
--   **Cubic curve:**`[addCurveToPoint:controlPoint1:controlPoint2:](https://developer.apple.com/documentation/uikit/uibezierpath/1624357-addcurve)`
-    
--   **Quadratic curve:**`[addQuadCurveToPoint:controlPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624351-addquadcurvetopoint)`
-    
-
-Because curves rely on the current point of the path, you must set the current point before calling either of the preceding methods. Upon completion of the curve, the current point is updated to the new end point you specified.
-
 ## Creating Oval and Rectangular Paths
 
-Ovals and rectangles are common types of paths that are built using a combination of curve and line segments. The  `[UIBezierPath](https://developer.apple.com/documentation/uikit/uibezierpath)`  class includes the  `[bezierPathWithRect:](https://developer.apple.com/documentation/uikit/uibezierpath/1624359-bezierpathwithrect)`  and  `[bezierPathWithOvalInRect:](https://developer.apple.com/documentation/uikit/uibezierpath/1624379-init)`  convenience methods for creating paths with oval or rectangular shapes. Both of these methods create a new path object and initialize it with the specified shape. You can use the returned path object right away or add more shapes to it as needed.
-
-If you want to add a rectangle to an existing path object, you must do so using the  `[moveToPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624343-movetopoint)`,  `[addLineToPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624354-addline)`, and  `[closePath](https://developer.apple.com/documentation/uikit/uibezierpath/1624338-close)`  methods as you would for any other polygon. Using the  `closePath`  method for the final side of the rectangle is a convenient way to add the final line of the path and also mark the end of the rectangle subpath.
-
-If you want to add an oval to an existing path, the simplest way to do so is to use Core Graphics. Although you can use the  `[addQuadCurveToPoint:controlPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624351-addquadcurvetopoint)`  to approximate an oval surface, the  `[CGPathAddEllipseInRect](https://developer.apple.com/documentation/coregraphics/1411222-cgpathaddellipseinrect)`  function is much simpler to use and more accurate. For more information, see  [Modifying the Path Using Core Graphics Functions](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html#//apple_ref/doc/uid/TP40010156-CH11-SW10).
+If you want to **add an oval to an existing path**, the simplest way to do so is to use **Core Graphics**. Although you can use the  `[addQuadCurveToPoint:controlPoint:]`  to approximate an oval surface, the  `[CGPathAddEllipseInRect]`  function is much simpler to use and more accurate. For more information, see  [Modifying the Path Using Core Graphics Functions](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html#//apple_ref/doc/uid/TP40010156-CH11-SW10).
 
 ## Modifying the Path Using Core Graphics Functions
 
-The  `[UIBezierPath](https://developer.apple.com/documentation/uikit/uibezierpath)`  class is really just a wrapper for a  `[CGPathRef](https://developer.apple.com/documentation/coregraphics/cgpath)`  data type and the drawing attributes associated with that path. Although you normally add line and curve segments using the methods of the  `UIBezierPath`  class, the class also exposes a  `[CGPath](https://developer.apple.com/documentation/uikit/uibezierpath/1624342-cgpath)`  property  that you can use to modify the underlying path data type directly. You can use this property when you would prefer to build your path using the functions of the Core Graphics framework.
+The  `[UIBezierPath]`  class is really just a wrapper for a  `[CGPathRef]`  data type and the drawing attributes associated with that path. 
+Although you normally add **line** and **curve segments** using the methods of the  `UIBezierPath`  class, the class also exposes a  `[CGPath]`  property  that you can use to **MODIFY** the underlying path data type **directly**. You can use this property when you would prefer to build your path using the functions of the Core Graphics framework.
+> Nói túm lại: UIBezierPath chỉ là wrapper của **CGPathRef** của CoreGraphic thôi, mày gọi mấy cái hàm mà nó public ra cuối cùng nó cũng dùng CoreGraphic vẽ lên CGPathRef thôi. Cho nên mày có thể móc ra **CGPathRef** rồi vẽ lên bằng CoreGraphic functions luôn cho tốc độ.
 
-There are two ways to modify the path associated with a  `UIBezierPath`  object. You can modify the path entirely using Core Graphics functions, or you can use a mixture of Core Graphics functions and  `UIBezierPath`  methods. Modifying the path entirely using Core Graphics calls is easier in some ways. You create a mutable  `CGPathRef`  data type and call whatever functions you need to modify its path information. When you are done you assign your path object to the corresponding  `UIBezierPath`  object, as shown in  Listing 2-3.
+There are **2 ways to modify the path** associated with a  `UIBezierPath`  object. You can modify the path entirely using Core Graphics functions, or you can use a mixture of Core Graphics functions and  `UIBezierPath`  methods. 
+> Có 2 cách modify the path trong UIBezierPath:
+> - Dùng toàn bộ là **CoreGraphic functions**
+> - Mix giữa **CoreGraphic functions** và **UIBezierPath methods**
+
+Modifying the path entirely using Core Graphics calls is easier in some ways. You create a mutable  `CGPathRef`  data type and call whatever functions you need to modify its path information. When you are done you assign your path object to the corresponding  `UIBezierPath`  object, as shown in  Listing 2-3.
 
 **Listing 2-3** Assigning a new  `CGPathRef`  to a  `UIBezierPath`  object
 ```Swift
 // Create the path data.
+// Muốn vẽ gì vẽ
 CGMutablePathRef cgPath = CGPathCreateMutable();
 CGPathAddEllipseInRect(cgPath, NULL, CGRectMake(0, 0, 300, 300));
 CGPathAddEllipseInRect(cgPath, NULL, CGRectMake(50, 50, 200, 200));
 
 // Now create the UIBezierPath object.
+// Gán CGPathRef vào cho UIBezierPath
 UIBezierPath *aPath = [UIBezierPath bezierPath];
 aPath.CGPath = cgPath;
 aPath.usesEvenOddFillRule = YES;
@@ -172,6 +211,9 @@ aPath.usesEvenOddFillRule = YES;
 // your CGPathRef data type safely.
 CGPathRelease(cgPath);
 ```
+
+* **Chú ý:** sau khi tạo **CGPathRef** và assign cho UIBezierPath thì mày phải release nó sử dụng `CGPathRelease(cgPath)`
+
 
 If you choose to use a mixture of Core Graphics functions and  `UIBezierPath`  methods, you must carefully move the path information back and forth between the two. Because a  `UIBezierPath`  object owns its underlying  `CGPathRef`  data type, you cannot simply retrieve that type and modify it directly. Instead, you must make a mutable copy, modify the copy, and then assign the copy back to the  `CGPath`  property as shown in  Listing 2-4.
 
@@ -279,3 +321,22 @@ If you want to do hit-testing on the stroked portion of the path (instead of the
    CGContextRestoreGState(context);
    return isHit;
 }
+```
+
+
+## Adding Curves to Your Path (Not Important)
+
+`quadratic`: bậc 2
+The  `[UIBezierPath]`  class provides support for adding **cubic** and **quadratic** Bézier curves to a path. 
+Curve segments start at the **current point** and end at the point you specify. The shape of the curve is defined using `tangent lines (đường tiếp tuyến)` between the **start** and **end points** and one or more **control points**.  
+
+Figure 2-3  shows approximations of **2 types of curve** and the relationship between the **control points** and the shape of the curve. The exact `curvature (độ cong)` of each segment involves a complex mathematical relationship between all of the **points** and is well documented online and at  [Wikipedia](http://en.wikipedia.org/wiki/Bezier_curve).
+
+**Figure 2-3** Curve segments in a path
+![](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/Art/curve_segments_2x.png)
+
+To add **curves** to a path, you use the following methods:
+-   **Cubic curve:**`[addCurveToPoint:controlPoint1:controlPoint2:]`
+-   **Quadratic curve:**`[addQuadCurveToPoint:controlPoint:]`
+    
+Because **curves** rely on the **current point** of the path, you must set the **current point** before calling either of the preceding methods. Upon completion of the **curve**, the **current point** is updated to the new end point you specified.
