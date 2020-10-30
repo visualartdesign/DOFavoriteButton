@@ -2,38 +2,33 @@
 Tóm tắt kiến thức và dịch từ: [Link](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html)
 
 > `UIBezierPath` dùng để tạo những **vector based paths**
-  `UIBezierPath` là thằng wrapper cho thằng `CGPathRef` trong CoreGraphic framework.
-`UIBezierPath` là wrapper nên nó là tầng trên của CoreGraphic.
-Mày dùng `UIBezierPath` để vẽ simple shapes như: ovals, rectangles,.. và nhiều hình phức tạp curved (cong), straight (thẳng) các kiểu.
+> `UIBezierPath` là thằng wrapper cho thằng `CGPathRef` trong CoreGraphic framework.
+> `UIBezierPath` là wrapper nên nó là tầng trên của CoreGraphic.
+> Mày dùng `UIBezierPath` để vẽ simple shapes như: ovals, rectangles,.. và nhiều hình phức tạp curved (cong), straight (thẳng) các kiểu.
 
 You can use path objects to draw shapes in your app’s user interface. You can draw the **path’s outline**, fill the space it encloses, or both. 
-> Mày có thể vẽ **path's outline**, **fill the space it encloses**
-
 You can also use paths to define a **clipping region** for the current graphics context, which you can then use to **modify** subsequent drawing operations in that context.
+> Mày có thể vẽ **path's outline**, **fill the space it encloses**
 > Clipping region?
 > **modify** subsequent drawing operations?
 
 ## Bézier Path Basics
 
 A `UIBezierPath]` object is a wrapper for a `CGPathRef` data type. 
-> *(Là wrapper của CGPathRef của CoreGraphic nha)*
-
 **_Paths_** are vector-based shapes that are built using line and curve segments. 
+> *(Là wrapper của CGPathRef của CoreGraphic nha)*
 > *(Path được built sử dụng **LINES** và **CURVE** segments)*
 > Có 2 loại segments: Line và Curve.
 
 You can use **line segments** to create rectangles and polygons, and you can use **curve segments** to create arcs, circles, and complex curved shapes. 
-> *(Mày dùng line để vẽ HCN, dùng curve vẽ hình tròn,...)*
-
 Each segment consists of one or more points (in the current coordinate system) and a drawing command that defines how those points are interpreted.
+> *(Mày dùng line để vẽ HCN, dùng curve vẽ hình tròn,...)*
 > Mỗi segment  = (1 or nhiều points) + command
 > Từ đó suy ra how to draw segment đó.
 
-Each set of connected line and curve segments form what is referred to as a _subpath_. 
+Each set of connected line and curve segments form what is referred to as a _subpath_.  The end of one line or curve segment in a subpath defines the beginning of the next. 
 > **subpath** là gì? 
 > Là tập hợp nhiều line+curve segments => 1 hình nào đó => gọi là **subpath**
-
-The end of one line or curve segment in a subpath defines the beginning of the next. 
 > Kết thúc 1 subpath là the next subpath
 
 A single `UIBezierPath` object may contain one or more subpaths that define the overall path, separated by `[moveToPoint:]` commands that effectively raise the drawing pen and move it to a new location.
@@ -44,23 +39,38 @@ A single `UIBezierPath` object may contain one or more subpaths that define the 
 The processes for building and using a path object are separate. Building the path is the first process and involves the following steps:
 
 1.  Create  the path object.
-2.  Set any relevant **drawing attributes** of your  `UIBezierPath`  object, such as the  `[lineWidth]`  or  `[lineJoinStyle]` properties  for **stroked paths** or the  `[usesEvenOddFillRule]`  property for filled paths. These drawing attributes apply to the entire path.
-    
-3.  Set the starting point of the initial segment using the  `[moveToPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624343-movetopoint)`  method.
-    
-4.  Add line and curve segments to define a subpath.
-    
-5.  Optionally, close the subpath by calling  `[closePath](https://developer.apple.com/documentation/uikit/uibezierpath/1624338-close)`, which draws a straight line segment from the end of the last segment to the beginning of the first.
-    
-6.  Optionally, repeat the steps 3, 4, and 5 to define additional subpaths.
+*Tạo UIBezierPath Object*
+2.  Set any relevant **drawing attributes** of your  `UIBezierPath`  object, such as the  `lineWidth`  or  `lineJoinStyle` properties  for **stroked paths** or the  `usesEvenOddFillRule`  property for filled paths. These drawing attributes apply to the entire path.
 
-When building your path, you should arrange the points of your path relative to the origin point (0, 0). Doing so makes it easier to move the path around later. During drawing, the points of your path are applied as-is to the coordinate system of the current graphics context. If your path is oriented relative to the origin, all you have to do to reposition it is apply an affine transform with a translation factor to the current graphics context. The advantage of modifying the graphics context (as opposed to the path object itself) is that you can easily undo the transformation by saving and restoring the graphics state.
+3.  Set the **starting point** of the initial segment using the  `[moveToPoint:]`  method.
+    
+4.  Add **line** and **curve segments** to define a **subpath**.
+    
+5.  Optionally, close the subpath by calling  `[closePath]`, which draws a **straight line segment** from the end of the **last segment** to the **beginning of the first**.
+    
+6.  Optionally, repeat the steps 3, 4, and 5 to define **additional subpaths**.
 
-To draw your path object, you use the `[stroke]` and `[fill](https://developer.apple.com/documentation/uikit/uibezierpath/1624371-fill)` methods. These methods render the line and curve segments of your path in the current graphics context. The rendering process involves rasterizing the line and curve segments using the attributes of the path object. The rasterization process does not modify the path object itself. As a result, you can render the same path object multiple times in the current context or in another context.
+When building your **path**, you should arrange the **points** of your path relative to the origin point (0, 0). Doing so makes it easier to move the path around later. 
+> Khi build path, thì mày nên sắp xếp những points của mày tương ứng với origin là (0,0) để sau này có thể move the path đi dễ dàng.
+
+During drawing, the points of your path are applied as-is to the coordinate system of the current graphics context. If your path is oriented relative to the origin, all you have to do to reposition it is apply an affine transform with a translation factor to the current graphics context. 
+> Khi vẽ, những điểm của your path sẽ được applied như là hệ tọa độ của **current graphics context**. Nếu mà path của mày là **oriented** relative to the origin, mày reposition nó bằng cách apply 1 **affine transform** with 1 transtation factor to the current **graphic context**
+> Khó hiểu vãi.
+
+`as opposed to`: trái ngược với
+The advantage of modifying the graphics context (as opposed to the path object itself) is that you can easily undo the transformation by saving and restoring the graphics state.
+> Ưu điểm của việc modify the **graphic context**  là mày có thể ez undo the transformation bằng cách saving và restoring the graphics state???
+> Khó hiểu quá :((
+
+To draw your path object, you use the `[stroke]` and `[fill]` methods. These methods render the line and curve segments of your path in the current graphics context. 
+> Để draw UIBezierPath, mày dùng `stroke` và `fill` methods. Những hàm này sẽ render the line and curve segments of your path in the **current graphics context**
+
+The rendering process involves rasterizing the line and curve segments using the attributes of the path object. The rasterization process does not modify the path object itself. As a result, you can render the same path object multiple times in the current context or in another context.
+> The Rendering Process bao gồm Rasterizing the line và curve segments using the attributes of the **UIBezierPath object**. The rasterization process không modify the object.... đm khó hiểu quá.
 
 ## Adding Lines and Polygons to Your Path
 
-Lines and polygons are simple shapes that you build point-by-point using the `[moveToPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624343-movetopoint)` and `[addLineToPoint:](https://developer.apple.com/documentation/uikit/uibezierpath/1624354-addline)` methods. The `moveToPoint:` method sets the starting point of the shape you want to create. From that point, you create the lines of the shape using the `addLineToPoint:` method. You create the lines in succession, with each line being formed between the previous point and the new point you specify.
+Lines and polygons are simple shapes that you build point-by-point using the `[moveToPoint:]` and `[addLineToPoint:]` methods. The `moveToPoint:` method sets the starting point of the shape you want to create. From that point, you create the lines of the shape using the `addLineToPoint:` method. You create the lines in succession, with each line being formed between the previous point and the new point you specify.
 
 Listing 2-1 shows the code needed to create a pentagon shape using individual line segments. (Figure 2-1 shows the result of drawing this shape with appropriate stroke and fill color settings, as described in [Rendering the Contents of a Bézier Path Object](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html#//apple_ref/doc/uid/TP40010156-CH11-SW13).) This code sets the initial point of the shape and then adds four connected line segments. The fifth segment is added by the call to the `[closePath](https://developer.apple.com/documentation/uikit/uibezierpath/1624338-close)` method, which connects the last point (0, 40) with the first point (100, 0).
 
