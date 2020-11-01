@@ -1,4 +1,5 @@
 # Paths
+Tóm tắt kiến thức và dịch từ: [Link](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Paths/Paths.html#//apple_ref/doc/uid/TP40003290-CH206-BBCHFJJG)
 
 Cocoa provides support for drawing simple or complex geometric shapes using paths. A path is a collection of points used to create primitive shapes such as lines, arcs, and curves. From these primitives, you can create more complex shapes, such as circles, rectangles, polygons, and complex curved shapes, and paint them. Because they are composed of points (as opposed to a rasterized bitmap), paths are lightweight, fast, and scale to different resolutions without losing precision or quality.
 
@@ -320,33 +321,38 @@ NSBezierPath* aPath = [NSBezierPath bezierPath];
 
 [aPath stroke];
 
-### Winding Rules
+# Winding Rules
 
-When you  fill the area encompassed by a path,  `[NSBezierPath](https://developer.apple.com/documentation/appkit/nsbezierpath)`  applies the current winding rule to determine which areas of the screen to fill. A  _winding rule_  is simply an algorithm that tracks information about each contiguous region that makes up the path's overall fill area. A ray is drawn from a point inside a given region to any point outside the path bounds. The total number of crossed path lines (including implicit lines) and the direction of each path line are then interpreted using the rules in  Table 8-2, which determine if the region should be filled.
+`encompassed`: bao trùm
+`ray`: 1 tia
+When you  fill the area **encompassed** by a path,  `[NSBezierPath]`  applies the **current winding rule** to determine which areas of the screen to fill. 
+A  _winding rule_  is simply an algorithm that tracks information about each contiguous region that makes up the path's overall fill area. **A ray** is drawn from a **point** inside a **given region** to any point **outside the path bounds**. The total number of **crossed path lines** (including implicit lines) and the direction of each path line are then interpreted using the rules in  Table 8-2, which determine if the region should be filled.
+> - `winding rules: ` dùng để xác định vùng nào sẽ được **filled** màu.
+> - `winding rule`: là thuật toán để xác định ra những vùng đó.
 
-**Table 8-2** Winding rules
+## 2 loại WindingRule
+- [`NSWindingRuleNonZero`](https://developer.apple.com/documentation/appkit/nswindingrule/nswindingrulenonzero)
+Count each left-to-right path as +1, and each right-to-left path as -1. If the sum of all crossings is 0, the point is outside the path. If the sum is nonzero, the point is inside the path and the region containing it is filled. This is the default winding rule.
 
-Winding rule
+- [`NSWindingRuleEvenOdd`](https://developer.apple.com/documentation/appkit/nswindingrule/nswindingruleevenodd)
+Từ 1 điểm vẽ 1 tia bất kì, tính tổng line mà tia đó đi qua.
+    - Chẵn thì vùng đó outside -> not fill
+    - Lẻ thì vùng đó inside -> fill
 
-Description
+**Fill operations** are suitable for use with both **open** and **closed subpaths**. A closed subpath is a sequence of drawing calls that ends with a Close Path path element. An open subpath ends with a Move To path element. When you fill a partial subpath,  `NSBezierPath`  closes it for you automatically by creating an implicit (non-rendered) line from the first to the last point of the subpath.
 
-`[NSNonZeroWindingRule](https://developer.apple.com/documentation/appkit/nsnonzerowindingrule)`
+Figure 8-7  shows how the **winding rules** are applied to a **particular path**. 
 
-Count each left-to-right path as +1 and each right-to-left path as -1. If the sum of all crossings is 0, the point is outside the path. If the sum is  nonzero, the point is inside the path and the region containing it is filled. This is the default winding rule.
-
-`[NSEvenOddWindingRule](https://developer.apple.com/documentation/appkit/nsevenoddwindingrule)`
-
-Count the total number of path crossings. If the number of crossings is  even, the point is outside the path. If the number of crossings is odd, the point is inside the path and the region containing it should be filled.
-
-Fill operations are suitable for use with both open and closed subpaths. A closed subpath is a sequence of drawing calls that ends with a Close Path path element. An open subpath ends with a Move To path element. When you fill a partial subpath,  `NSBezierPath`  closes it for you automatically by creating an implicit (non-rendered) line from the first to the last point of the subpath.
-
-Figure 8-7  shows how the winding rules are applied to a particular path. Subfigure  `a`  shows the path rendered using the nonzero rule and subfigure  `b`  shows it rendered using the even-odd rule. Subfigures  `c`  and  `d`  add direction marks and the hidden path line that closes the figure to help you see how the rules are applied to two of the path’s regions.
++ Subfigure  `a`  shows the path rendered using the **nonzero rule** 
++  Subfigure  `b`  shows it rendered using the even-odd rule. 
++ Subfigures  `c`  and  `d`  add direction marks and the hidden path line that closes the figure to help you see how the rules are applied to two of the path’s regions.
 
 **Figure 8-7** Applying winding rules to a path
 
 ![Applying winding rules to a path](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Art/winding_path_crossing_2x.png)
 
-To set the winding rule for an  `NSBezierPath`  object, use the  `[setWindingRule:](https://developer.apple.com/documentation/appkit/nsbezierpath/1520657-windingrule)`  method. The default winding rule is  `NSNonZeroWindingRule`. To change the default winding rule for all  `NSBezierPath`  objects, use the  `setDefaultWindingRule:`  method.
+- To set the winding rule for an  `NSBezierPath`  object, use the  `[setWindingRule:]`  method. The **default winding** rule is  `NSNonZeroWindingRule`. 
+- To **change the default winding rule** for all  `NSBezierPath`  objects, use the  `setDefaultWindingRule:`  method.
 
 ## Manipulating Geometric Types
 
