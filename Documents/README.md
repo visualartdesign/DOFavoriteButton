@@ -1,16 +1,16 @@
 # Drawing Shapes Using Bézier Paths
 Tóm tắt kiến thức và dịch từ: [Link](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html)
 
-> `UIBezierPath` dùng để tạo những **vector based paths**
-> `UIBezierPath` là thằng wrapper cho thằng `CGPathRef` trong CoreGraphic framework.
-> `UIBezierPath` là wrapper nên nó là tầng trên của CoreGraphic.
-> Mày dùng `UIBezierPath` để vẽ simple shapes như: ovals, rectangles,.. và nhiều hình phức tạp curved (cong), straight (thẳng) các kiểu.
+*  `UIBezierPath` dùng để tạo những **vector based paths**
+*  `UIBezierPath` là thằng wrapper cho thằng `CGPathRef` trong **CoreGraphic** framework.
+*  `UIBezierPath` là wrapper nên nó là tầng trên của CoreGraphic.
+*  Mày dùng `UIBezierPath` để vẽ simple shapes như: ovals, rectangles,.. và nhiều hình phức tạp curved (cong), straight (thẳng) các kiểu.
 
-You can use path objects to draw shapes in your app’s user interface. You can draw the **path’s outline**, fill the space it encloses, or both. 
+You can draw the **path’s outline**, fill the space it encloses, or both. 
 You can also use paths to define a **clipping region** for the current graphics context, which you can then use to **modify** subsequent drawing operations in that context.
-> Mày có thể vẽ **path's outline**, **fill the space it encloses**
-> Clipping region?
-> **modify** subsequent drawing operations?
+> - Mày có thể vẽ **path's outline**, **fill the space it encloses**
+> -  Clipping region?
+> -  **modify** subsequent drawing operations?
 
 ## Tạo 1 số BezierPath phổ biến
 
@@ -29,10 +29,11 @@ You can also use paths to define a **clipping region** for the current graphics 
 **Vẽ vòng cung với 1 góc x, bán kính,..**
 [`+ bezierPathWithArcCenter:radius:startAngle:endAngle:clockwise:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624358-bezierpathwitharccenter?language=objc)
 
-Creates and returns a new Bézier path object with the contents of a Core Graphics path.
+**`CGPathRef` => `UIBezierPath`**
 [`+ bezierPathWithCGPath:`](https://developer.apple.com/documentation/uikit/uibezierpath/1624362-bezierpathwithcgpath?language=objc)
 
-Creates and returns a new Bézier path object with the reversed contents of the current path.
+Creates and returns a new Bézier path object with the reversed (`đảo ngược`) contents of the current path.
+(Đảo ngược content của `UIBezierPath`)
 [`- bezierPathByReversingPath`](https://developer.apple.com/documentation/uikit/uibezierpath/1624348-bezierpathbyreversingpath?language=objc)
 
 # Constructing a Path
@@ -66,10 +67,11 @@ The Core Graphics representation of the path.
 ## Bézier Path Basics
 
 A `UIBezierPath]` object is a wrapper for a `CGPathRef` data type. 
-**_Paths_** are vector-based shapes that are built using line and curve segments. 
-> *(Là wrapper của CGPathRef của CoreGraphic nha)*
-> *(Path được built sử dụng **LINES** và **CURVE** segments)*
-> Có 2 loại segments: Line và Curve.
+**_Paths_** are **vector-based shapes** that are built using line and curve segments. 
+
+-  *(Là wrapper của CGPathRef của CoreGraphic nha)*
+-  *(Path được built sử dụng **LINES** và **CURVE** segments)*
+-  Có 2 loại segments: Line và Curve.
 
 You can use **line segments** to create rectangles and polygons, and you can use **curve segments** to create arcs, circles, and complex curved shapes. 
 Each segment consists of one or more points (in the current coordinate system) and a drawing command that defines how those points are interpreted.
