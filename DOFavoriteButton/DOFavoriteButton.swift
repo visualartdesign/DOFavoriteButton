@@ -159,12 +159,10 @@ open class DOFavoriteButton: UIButton {
                                 width: buttonWidth/2,
                                 height: buttonHeight/2)
         let imgCenterPoint = CGPoint(x: imageFrame.midX, y: imageFrame.midY)
-        let lineFrame = CGRect(x: imageFrame.origin.x - imageFrame.width/4,
-                               y: imageFrame.origin.y - imageFrame.height / 4 ,
-                               width: imageFrame.width * 1.5,
-                               height: imageFrame.height * 1.5)
         
-        /// CircleLayer
+        /// CircleLayer là 1 hình tròn (nó cũng chứa 1 UIBezierPath đó)
+        /// Hình tròn này có kích thước to bằng MAIN-IMAGE
+        /// Tạm thời scale về 0.0
         circleShape = OvalLayer(fillColor: circleColor.cgColor)
         circleShape.bounds = imageFrame
         circleShape.position = imgCenterPoint
@@ -174,12 +172,14 @@ open class DOFavoriteButton: UIButton {
         ///
         /// Read more about FillRule
         /// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Paths/Paths.html#//apple_ref/doc/uid/TP40003290-CH206-BAJIJJGD
+        /// CircleMask là 1 CAShapLayer chịu trách nhiệm draw 1 UIBezierPath (là hình tròn nhỏ xíu nằm ngay giữa MAIN-IMAGE)
         circleMask = CAShapeLayer()
         circleMask.bounds = imageFrame
         circleMask.position = imgCenterPoint
         circleMask.fillRule = CAShapeLayerFillRule.evenOdd
         circleShape.mask = circleMask
-        
+        /// Tạo 1 path object là hình tròn bán kính 0.1 nằm chính giữa MAIN-IMAGE
+        /// Gán path vào CAShapeLayer (circleMask)
         let maskPath = UIBezierPath(rect: imageFrame)
         maskPath.addArc(withCenter: imgCenterPoint,
                         radius: 0.1,
@@ -188,9 +188,11 @@ open class DOFavoriteButton: UIButton {
                         clockwise: true)
         circleMask.path = maskPath.cgPath
         
-        //===============
-        // line layer
-        //===============
+        /// Lines là list của các CAShapeLayer (~ CALayer)
+        let lineFrame = CGRect(x: imageFrame.origin.x - imageFrame.width/4,
+                               y: imageFrame.origin.y - imageFrame.height / 4 ,
+                               width: imageFrame.width * 1.5,
+                               height: imageFrame.height * 1.5)
         lines = []
         for i in 0 ..< 5 {
             let line = CAShapeLayer()
