@@ -73,9 +73,9 @@ class ViewController: UIViewController {
     
     @objc func tappedButton(sender: DOFavoriteButton) {
         if sender.isSelected {
-            sender.deselect()
+            sender.animateToDeselectedState()
         } else {
-            sender.select()
+            sender.animateToSelectedState()
         }
     }
 }

@@ -23,14 +23,14 @@ open class DOFavoriteButton: UIButton {
     @IBInspectable open var selectedColor: UIColor! =  defaultSelectedColor {
         didSet {
             if (isSelected) {
-                imageShape.fillColor = selectedColor.cgColor
+                imageShapeLayer.fillColor = selectedColor.cgColor
             }
         }
     }
     @IBInspectable open var unselectedColor: UIColor! = defaultUnSelectedColor  {
         didSet {
             if (isSelected == false) {
-                imageShape.fillColor = unselectedColor.cgColor
+                imageShapeLayer.fillColor = unselectedColor.cgColor
             }
         }
     }
@@ -52,7 +52,7 @@ open class DOFavoriteButton: UIButton {
             createLayers(image: image)
         }
     }
-    fileprivate var imageShape: CAShapeLayer!
+    fileprivate var imageShapeLayer: CAShapeLayer!
     fileprivate var circleShape: CAShapeLayer!
     fileprivate var circleMask: CAShapeLayer!
     fileprivate var lines: [CAShapeLayer]!
@@ -79,9 +79,9 @@ open class DOFavoriteButton: UIButton {
         didSet {
             if (isSelected != oldValue) {
                 if isSelected {
-                    imageShape.fillColor = selectedColor.cgColor
+                    imageShapeLayer.fillColor = selectedColor.cgColor
                 } else {
-                    deselect()
+                    animateToDeselectedState()
                 }
             }
         }
@@ -112,15 +112,15 @@ open class DOFavoriteButton: UIButton {
     
     // MARK: Public
     
-    open func select() {
+    open func animateToSelectedState() {
         isSelected = true
-        imageShape.fillColor = selectedColor.cgColor
+        imageShapeLayer.fillColor = selectedColor.cgColor
         
         CATransaction.begin()
         
         circleShape.add(circleTransform, forKey: "transform")
         circleMask.add(circleMaskTransform, forKey: "transform")
-        imageShape.add(imageTransform, forKey: "transform")
+        imageShapeLayer.add(imageTransform, forKey: "transform")
         
         for i in 0 ..< 5 {
             lines[i].add(lineStrokeStart, forKey: "strokeStart")
@@ -131,14 +131,14 @@ open class DOFavoriteButton: UIButton {
         CATransaction.commit()
     }
     
-    open func deselect() {
+    open func animateToDeselectedState() {
         isSelected = false
-        imageShape.fillColor = unselectedColor.cgColor
+        imageShapeLayer.fillColor = unselectedColor.cgColor
         
         // remove all animations
         circleShape.removeAllAnimations()
         circleMask.removeAllAnimations()
-        imageShape.removeAllAnimations()
+        imageShapeLayer.removeAllAnimations()
         lines[0].removeAllAnimations()
         lines[1].removeAllAnimations()
         lines[2].removeAllAnimations()
@@ -222,18 +222,18 @@ open class DOFavoriteButton: UIButton {
         //===============
         // image layer
         //===============
-        imageShape = CAShapeLayer()
-        imageShape.bounds = imageFrame
-        imageShape.position = imgCenterPoint
-        imageShape.path = UIBezierPath(rect: imageFrame).cgPath
-        imageShape.fillColor = unselectedColor.cgColor
-        imageShape.actions = ["fillColor": NSNull()]
-        self.layer.addSublayer(imageShape)
+        imageShapeLayer = CAShapeLayer()
+        imageShapeLayer.bounds = imageFrame
+        imageShapeLayer.position = imgCenterPoint
+        imageShapeLayer.path = UIBezierPath(rect: imageFrame).cgPath
+        imageShapeLayer.fillColor = unselectedColor.cgColor
+        imageShapeLayer.actions = ["fillColor": NSNull()]
+        self.layer.addSublayer(imageShapeLayer)
         
-        imageShape.mask = CALayer()
-        imageShape.mask!.contents = image.cgImage
-        imageShape.mask!.bounds = imageFrame
-        imageShape.mask!.position = imgCenterPoint
+        imageShapeLayer.mask = CALayer()
+        imageShapeLayer.mask!.contents = image.cgImage
+        imageShapeLayer.mask!.bounds = imageFrame
+        imageShapeLayer.mask!.position = imgCenterPoint
         
         //==============================
         // circle transform animation
