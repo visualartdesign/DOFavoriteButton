@@ -112,6 +112,37 @@ open class DOFavoriteButton: UIButton {
     
     // MARK: Public
     
+    
+
+    open func select() {
+        select(animated: true)
+    }
+    
+    open func select(animated: Bool = true) {
+        
+        isSelected = true
+        imageShapeLayer.fillColor = selectedColor.cgColor
+        
+        if !animated { return }
+        CATransaction.begin()
+        
+        circleShape.add(circleTransform, forKey: "transform")
+        circleMask.add(circleMaskTransform, forKey: "transform")
+        imageShapeLayer.add(imageTransform, forKey: "transform")
+        
+        for i in 0 ..< 5 {
+            lines[i].add(lineStrokeStart, forKey: "strokeStart")
+            lines[i].add(lineStrokeEnd, forKey: "strokeEnd")
+            lines[i].add(lineOpacity, forKey: "opacity")
+        }
+        
+        CATransaction.commit()
+    }
+    
+    open func deselect() {
+        animateToDeselectedState()
+    }
+    
     open func animateToSelectedState() {
         isSelected = true
         imageShapeLayer.fillColor = selectedColor.cgColor
